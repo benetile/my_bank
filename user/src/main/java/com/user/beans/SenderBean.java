@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "sender")
+@Table(name ="sender")
 public class SenderBean {
 
     @Id
-    private Integer idSenderBean;
+    private Integer idSender;
     private String firstname;
     private String lastname;
     private String email;
@@ -35,12 +35,12 @@ public class SenderBean {
         this.idUser = idUser;
     }
 
-    public Integer getIdSenderBean() {
-        return idSenderBean;
+    public Integer getIdSender() {
+        return idSender;
     }
 
-    public void setIdSenderBean(Integer idSenderBean) {
-        this.idSenderBean = idSenderBean;
+    public void setIdSender(Integer idSender) {
+        this.idSender = idSender;
     }
 
     public String getFirstname() {

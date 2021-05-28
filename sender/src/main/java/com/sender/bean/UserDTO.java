@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "users")
 public class UserDTO {
 
+    @Id
     private Integer idUser;
     private String firstname;
     private String lastname;

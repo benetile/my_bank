@@ -1,5 +1,7 @@
 package com.frontend.Beans;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,7 @@ public class User {
     private String firstname;
     private String lastname;
     private String username;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthdate;
     private String gender;
     private String email;

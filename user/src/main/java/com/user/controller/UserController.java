@@ -3,10 +3,12 @@ package com.user.controller;
 import com.user.model.User;
 import com.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,6 +66,9 @@ public class UserController {
     @PostMapping("/users")
     public User addUser(@RequestBody User user, BindingResult result){
         if (!result.hasErrors() && userRepository.findByEmail(user.getEmail())== null){
+            user.setRegistrationDate(new Date());
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
         else
@@ -71,7 +76,7 @@ public class UserController {
     }
 
     @PutMapping("/users/update/{id}")
-    public User updateUser(@PathVariable("id") Integer id, @RequestBody User update){
+    public User updateUser(@PathVariable("id") Integer id,@RequestBody User update){
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id : "+id));
         if (userRepository.existsById(id)){
             update.setIdUser(id);

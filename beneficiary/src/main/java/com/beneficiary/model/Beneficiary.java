@@ -1,7 +1,13 @@
 package com.beneficiary.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "beneficiary")
 public class Beneficiary {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idBeneficiary;
     private String firstname;
     private String lastname;

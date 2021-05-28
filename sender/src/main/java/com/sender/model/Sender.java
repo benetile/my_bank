@@ -3,16 +3,16 @@ package com.sender.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sender.bean.UserDTO;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "sender")
+@Table(name ="sender")
 public class Sender {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idSender;
     private String firstname;
     private String lastname;
