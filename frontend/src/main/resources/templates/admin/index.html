@@ -44,22 +44,62 @@
                                 <p class="text-secondary mb-1">[[${user.role}]]</p>
                                 <p class="text-muted font-size-sm">[[${user.address}]],<br>
                                     [[${user.city}]], [[${user.zipCode}]]</p>
-                                <button class="btn btn-primary">Follow</button>
+                                <div th:if="${bank} != null">
+                                    <p class="text-muted font-size-sm" th:obejct="${bank}"> Code Banque [[${bank.bankCode}]]</p>
+                                    <p class="text-muted font-size-sm" th:obejct="${bank}"> Code Guichet [[${bank.branchCode}]]</p>
+                                </div>
+                                <a href="/admin/banks" class="btn btn-primary">Banque</a>
                                 <button class="btn btn-outline-primary">Message</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!---------------->
+                <hr>
+
+                <!----------- methods for user -------------->
+
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-
+                            <a class="nav-link" href="/admin/add-user"><h4>Créer un nouvel utilisateur</h4></a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Créer un nouveau compte</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Modifier les informations de l'utilisateur</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Mettre à jour un compte</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4><a href="/admin/bank">Ajouter une banque</a></h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Mettre à jour une banque</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Transfert d'argent</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Valider des transferts</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Vérifier les transactions</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>faire une opposition</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Veérifier l'historique</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Contactez-nous</h4>
                         </li>
                     </ul>
                 </div>
-
             </div>
+
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">

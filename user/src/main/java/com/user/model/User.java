@@ -1,6 +1,8 @@
 package com.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.user.beans.AccountBean;
+import com.user.beans.BankBean;
 import com.user.beans.BeneficiaryBean;
 import com.user.beans.SenderBean;
 
@@ -30,6 +32,10 @@ public class User {
     private String password;
     private String role;
     private Date registrationDate;
+    private Boolean isNotLocked;
+    private Boolean isActive;
+
+    //association bank
 
     @ManyToMany(fetch = FetchType.LAZY,targetEntity = SenderBean.class,cascade = CascadeType.ALL)
     @JoinTable(name = "user_sender",
@@ -38,12 +44,21 @@ public class User {
     @JsonIgnoreProperties("users")
     private List<SenderBean> senders = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY,targetEntity = BeneficiaryBean.class, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,targetEntity = BeneficiaryBean.class, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_beneficiary",
                 joinColumns = @JoinColumn(name = "idUser"),
                 inverseJoinColumns = @JoinColumn(name = "idBeneficiary"))
     @JsonIgnoreProperties("users")
     private List<BeneficiaryBean> beneficiaries = new ArrayList<>();
+
+    @ManyToOne//(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "idBank")
+    @JsonIgnoreProperties("users")
+    private BankBean bank;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "idAccount")
+    private AccountBean account;
 
     public User() {
     }
@@ -63,6 +78,24 @@ public class User {
         this.role = role;
         this.registrationDate = registrationDate;
     }
+    public User(BankBean bank,String firstname, String lastname, String username, Date birthdate, String gender, String email, String phone, String address, Integer zipCode, String city, String password, String role, Date registrationDate) {
+        super();
+        this.setBank(bank);
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.birthdate = birthdate;
+        this.gender = gender;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.password = password;
+        this.role = role;
+        this.registrationDate = registrationDate;
+    }
+
 
     public Integer getIdUser() {
         return idUser;
@@ -176,6 +209,22 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
+    public Boolean getNotLocked() {
+        return isNotLocked;
+    }
+
+    public void setNotLocked(Boolean notLocked) {
+        isNotLocked = notLocked;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
     public List<SenderBean> getSenders() {
         return senders;
     }
@@ -191,6 +240,23 @@ public class User {
     public void setBeneficiaries(List<BeneficiaryBean> beneficiaries) {
         this.beneficiaries = beneficiaries;
     }
+
+    public BankBean getBank() {
+        return bank;
+    }
+
+    public void setBank(BankBean bank) {
+        this.bank = bank;
+    }
+
+    public AccountBean getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountBean account) {
+        this.account = account;
+    }
+
 
     @Override
     public boolean equals(Object o) {

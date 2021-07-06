@@ -31,7 +31,7 @@ public interface UserFeign {
     User addUser(@RequestBody User user);
 
     @PutMapping("/users/update/{id}")
-    User updateUser(@PathVariable("id") Integer id);
+    User updateUser(@PathVariable("id") Integer id,@RequestBody User update);
 
     @GetMapping("/users/delete/{id}")
     void deleteUser(@PathVariable("id") Integer id);

@@ -13,7 +13,7 @@ public interface BeneficiaryFeign {
     List<Beneficiary> showAllBeneficiaries();
 
     @GetMapping("/beneficiary/idUser/{id}")
-    List<Beneficiary> showAllBeneficiariesWithIdUser(@PathVariable("id") Integer id);
+    Beneficiary getBeneficiaryWithIdUser(@PathVariable("id") Integer id);
 
     @GetMapping("/beneficiary/{id}")
     Beneficiary getBeneficiary(@PathVariable("id") Integer id);

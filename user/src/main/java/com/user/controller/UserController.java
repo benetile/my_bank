@@ -1,7 +1,9 @@
 package com.user.controller;
 
+import com.user.feign.BeneficiaryFeign;
 import com.user.model.User;
 import com.user.repository.UserRepository;
+import com.user.service.GeneratePassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -12,11 +14,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BeneficiaryFeign beneficiaryFeign;
+
+    @Autowired
+    private GeneratePassword generatePassword;
 
     @GetMapping("/users")
     public List<User> showAllUsers(){
@@ -25,7 +34,7 @@ public class UserController {
 
     @GetMapping("/users/name/{name}")
     public List<User> getUsersLikeName(@PathVariable("name") String name){
-        return userRepository.findByFirstnameAndLastnameLike(name,name);
+        return userRepository.findByFirstnameLikeAndLastnameLike(name,name);
     }
 
     @GetMapping("/users/role/{role}")
@@ -50,7 +59,7 @@ public class UserController {
             return userRepository.findByEmail(email);
         }
         else
-            throw new IllegalArgumentException("Invalid email : "+email);
+            return null;
     }
 
     @GetMapping("/users/find/{firstname}/{lastname}")
@@ -68,7 +77,10 @@ public class UserController {
         if (!result.hasErrors() && userRepository.findByEmail(user.getEmail())== null){
             user.setRegistrationDate(new Date());
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(generatePassword.generateStrongPassword());
+            System.out.println(user.getPassword());
             user.setPassword(encoder.encode(user.getPassword()));
+            userRepository.save(user);
             return userRepository.save(user);
         }
         else
@@ -87,7 +99,7 @@ public class UserController {
             throw new IllegalArgumentException("Error update");
     }
 
-    @GetMapping("/users/delete/{id}")
+    @DeleteMapping("/users/delete/{id}")
     public void deleteUser(@PathVariable("id") Integer id){
         if (userRepository.existsById(id)){
             userRepository.deleteById(id);

@@ -39,7 +39,7 @@ public class LoginController {
                            BindingResult result){
         if (!result.hasErrors()){
             if (user.getPassword().equals(confirmPassword)){
-               // BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+               //BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                // user.setPassword(encoder.encode(user.getPassword()));
                 userFeign.addUser(user);
                 return "redirect:/home/login";
@@ -50,10 +50,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginPage(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!auth.getPrincipal().equals("anonymousUser")) {
-            User user = (User) auth.getPrincipal();
-        }
         return "home/login";
     }
 

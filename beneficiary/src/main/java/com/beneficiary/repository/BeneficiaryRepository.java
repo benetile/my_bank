@@ -11,5 +11,5 @@ public interface BeneficiaryRepository extends JpaRepository<Beneficiary,Integer
 
     Beneficiary findByEmail(String email);
 
-    List<Beneficiary> findByIdUser(Integer id);
+    Beneficiary findByIdUser(Integer id);
 }

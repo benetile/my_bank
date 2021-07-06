@@ -36,74 +36,73 @@
             <div class="row gutters-sm" th:object="${user}">
                 <div class="col-md-4 mb-3">
                     <div class="card">
-                        <div class="card-body"><h4>Current Amount</h4>
+                        <div class="card-body" th:object="${account}"><h4>Current Amount</h4>
                             <span> Total </span>
                             <h1 class="font-bold">
-                                390,00 €
+                                [[${account.sold}]] €
                             </h1>
                             <hr>
                             <h6>The percentage of my expenses</h6>
+                            <p>Plafond  : [[${account.ceiling}]] </p>
                             <div class="flex-wrapper">
-                                <div class="single-chart">
+                                <div class="single-chart" th:object="${discovered}" >
                                     <svg viewBox="0 0 36 36" class="circular-chart orange">
                                         <path class="circle-bg"
                                               d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                        <path class="circle" stroke-dasharray="50, 100"
+                                        <path class="circle" stroke-dasharray="100"
                                               d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                        <text x="18" y="20.35" class="percentage">50%</text>
+                                        <text x="18" y="20.35" class="percentage">[[${discovered}]]%</text>
                                     </svg>
                                 </div>
 
-                                <div class="single-chart">
+                                <div class="single-chart" th:object="${percent}">
                                     <svg viewBox="0 0 36 36" class="circular-chart green">
                                         <path class="circle-bg"
                                               d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                        <path class="circle" stroke-dasharray="70, 100"
+                                        <path class="circle" stroke-dasharray="100"
                                               d="M18 2.0845
                                               a 15.9155 15.9155 0 0 1 0 31.831
                                               a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                        <text x="18" y="20.35" class="percentage">70%</text>
+                                        <text x="18" y="20.35" class="percentage">[[${percent}]]%</text>
                                     </svg>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <!----------- methods for user -------------->
                     <div class="card mt-3">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>My Account</h4>
+                                <h4>Mon compte</h4>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>Fund Your Account</h4>
+                                <h4>Approvisionner mon compte</h4>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>Transfer Money</h4>
+                                <h4>Faire un virement</h4>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>Add a Beneficiary</h4>
+                                <h4><a href="/user/mesBeneficiaires">Mes bénéficiaires</a></h4>
                             </li>
 
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>My spend</h4>
+                                <h4>Mes dépenses</h4>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>Transfer Money</h4>
+                                <h4>Faire une opposition</h4>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>Oppose</h4>
+                                <h4>Historique</h4>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>Historical</h4>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h4>Contact us</h4>
+                                <h4>Contactez-nous</h4>
                             </li>
                         </ul>
                     </div>

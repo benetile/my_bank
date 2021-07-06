@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+
+    <title>Créer un compte</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+
+    <!----------------------------- NavBar ----------------------------------------->
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/admin"><img th:src="@{/images/logo.png}" alt="logo" width="70px" height="50px"></a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><h2>My Bank</h2></li>
+            </ul>
+            <br>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Profile </a></li>
+                <li><a th:href="@{/app-logout}"><span class="glyphicon glyphicon-log-out"> Logout </span></a></li>
+            </ul>
+        </div>
+    </nav>
+</head>
+<body>
+<div class="container" style="width: 1200px;">
+    <div class="main-body">
+
+        <div class="row gutters-sm" th:object="${user}">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>[[${user.firstname}]] [[${user.lastname}]]</h4>
+                                <p class="text-secondary mb-1">[[${user.role}]]</p>
+                                <p class="text-muted font-size-sm">[[${user.address}]],<br>
+                                    [[${user.city}]], [[${user.zipCode}]]</p>
+                                <button class="btn btn-primary">Follow</button>
+                                <button class="btn btn-outline-primary">Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <!----------- methods for user -------------->
+
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <a class="nav-link" href="/admin/add-user"><h4>Créer un nouvel utilisateur</h4></a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Créer un nouveau compte</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Modifier les informations de l'utilisateur</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Mettre à jour un compte</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Transfert d'argent</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Valider des transferts</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Vérifier les transactions</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>faire une opposition</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Vérifier l'historique</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Contactez-nous</h4>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="container" style="width : 700px ">
+                    <div class="card" th:object="${userSave}">
+                        <div class="card-body" th:object="${account}">
+                            <div class="container" style="width : 500px;">
+                                <fieldset>
+                                    <legend><h1>Information du Compte</h1></legend>
+                                        <div class="form-group">
+                                            <label>IBAN</label>
+                                            <div>
+                                                [[${account.iban}]]
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>BIC</label>
+                                            <div>
+                                                [[${account.bic}]]
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Numero de compte</label>
+                                            <div>
+                                                [[${account.accountNumber}]]
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Titulaire du compte</label>
+                                            <div>
+                                                [[${account.firstname}]] [[${account.lastname}]]
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="form-group">
+                                            <center>
+                                                <a class="btn btn-primary active" th:href="@{/admin/createAccount/{iban}/{id} (iban=${account.iban}, id=${userSave.idUser})}">Confirmer</a>
+                                            </center>
+                                        </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+</body>
+</html>

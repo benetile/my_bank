@@ -21,7 +21,7 @@ public class BeneficiaryController {
     }
 
     @GetMapping("/beneficiary/idUser/{id}")
-    public List<Beneficiary> showAllBeneficiariesWithIdUser(@PathVariable("id") Integer id){
+    public Beneficiary getBeneficiaryWithIdUser(@PathVariable("id") Integer id){
         return beneficiaryRepository.findByIdUser(id);
     }
 

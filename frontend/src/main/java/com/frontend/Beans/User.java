@@ -29,6 +29,10 @@ public class User {
 
     private List<Beneficiary> beneficiaries = new ArrayList<>();
 
+    private Bank bank;
+
+    private Account account;
+
     public User() {
     }
 
@@ -174,6 +178,22 @@ public class User {
 
     public void setBeneficiaries(List<Beneficiary> beneficiaries) {
         this.beneficiaries = beneficiaries;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 
     @Override

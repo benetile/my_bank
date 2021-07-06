@@ -13,7 +13,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     User findByFirstnameAndLastname(String first, String last);
 
-    List<User> findByFirstnameAndLastnameLike(String first,String like);
+    User findByEmailAndPassword(String email, String password);
+
+    List<User> findByFirstnameLikeAndLastnameLike(String first,String like);
 
     List<User> findByRole(String role);
 

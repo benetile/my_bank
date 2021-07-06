@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+
+    <!----------------------------- NavBar ----------------------------------------->
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/admin"><img th:src="@{/images/logo.png}" alt="logo" width="70px" height="50px"></a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><h2>My Bank</h2></li>
+            </ul>
+            <br>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Profile </a></li>
+                <li><a th:href="@{/app-logout}"><span class="glyphicon glyphicon-log-out"> Logout </span></a></li>
+            </ul>
+        </div>
+    </nav>
+</head>
+<body>
+<div class="container" style="width: 1200px;">
+    <div class="main-body">
+
+        <div class="row gutters-sm" th:object="${user}">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>[[${user.firstname}]] [[${user.lastname}]]</h4>
+                                <p class="text-secondary mb-1">[[${user.role}]]</p>
+                                <p class="text-muted font-size-sm">[[${user.address}]],<br>
+                                    [[${user.city}]], [[${user.zipCode}]]</p>
+                                <div th:if="${bank} != null">
+                                    <p class="text-muted font-size-sm" th:obejct="${bank}"> Code Banque [[${bank.bankCode}]]</p>
+                                </div>
+                                <a href="/admin/banks" class="btn btn-primary">Banque</a>
+                                <button class="btn btn-outline-primary">Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <!----------- methods for user -------------->
+
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <a class="nav-link" href="/admin/add-user"><h4>Créer un nouvel utilisateur</h4></a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Créer un nouveau compte</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Modifier les informations de l'utilisateur</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Mettre à jour un compte</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4><a href="/admin/bank">Ajouter une banque</a></h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Mettre à jour une banque</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Transfert d'argent</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Valider des transferts</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Vérifier les transactions</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>faire une opposition</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Veérifier l'historique</h4>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h4>Contactez-nous</h4>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div th:object="${message}" class="alert alert-success" role="alert">
+                            <center><h1>[[${message}]]</h1></center>
+                        </div>
+                        <hr>
+                        <hr>
+                        <legend>Details de l'utilisateur</legend>
+                        <div class="card-body" th:object="${userSave}">
+                            <div class="container" style="width : 600px">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Prénom</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.firstname}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Nom</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.lastname}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Username</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.username}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Mot de passe</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.password}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Date de naissance</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <span th:text="${#dates.format(userSave.birthdate, 'dd - MMM - yyyy')}"></span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Email</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.email}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Genre</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.gender}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Phone</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.phone}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Addresse</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.address}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Code Postal</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.zipCode}]]
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span class="mb-0">Ville</span>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        [[${userSave.city}]]
+                                    </div>
+                                </div>
+                                <hr>
+                                <hr>
+
+                                <!-------------- Partie compte bancaire ------->
+
+                                <div th:if="${account}!= null">
+                                    <legend>Details du Compte Bancaire</legend>
+                                    <div th:object="${account}">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <span class="mb-0">IBAN</span>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                [[${account.iban}]]
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <span class="mb-0">BIC</span>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                [[${account.bic}]]
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <span class="mb-0">Prénom</span>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                [[${account.firstname}]]
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <span class="mb-0">Nom</span>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                [[${account.lastname}]]
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <span class="mb-0">Montant</span>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                [[${account.sold}]]
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <span class="mb-0">Plafond</span>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                [[${account.ceiling}]]
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div>
+                                        <center>
+                                            <a class="btn btn-primary active" href="/admin">Retour</a>
+                                        </center>
+                                    </div>
+                                    <hr>
+
+                                </div>
+
+                                <div th:if="${account} == null">
+                                    <center>
+                                        <a class="btn btn-primary active" th:href="@{/admin/attributeAccount/{email}(email=${userSave.email})}">Créer un Compte</a>
+                                        <a class="btn btn-primary active" href="/admin">Retour</a></center>
+                                </div>
+                                <hr>
+                            </div>
+
+
+
+</body>
+</html>
