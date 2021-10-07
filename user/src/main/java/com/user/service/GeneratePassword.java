@@ -16,7 +16,7 @@ public class GeneratePassword {
     private static final String OTHER_PUNCTUATION = "!@#&()–[{}]:;',?/*";
     private static final String OTHER_SYMBOL = "~$^+=<>";
     private static final String OTHER_SPECIAL = OTHER_PUNCTUATION + OTHER_SYMBOL;
-    private static final int PASSWORD_LENGTH = 10;
+    private static final int PASSWORD_LENGTH = 8;
 
     private static final String PASSWORD_ALLOW =
             CHAR_LOWERCASE + CHAR_UPPERCASE + DIGIT + OTHER_SPECIAL;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class TransferController {
             return transferRepository.findById(id);
         }
         else
-            return null;
+           throw new IllegalArgumentException("Invalid Id "+id);
     }
 
     @GetMapping("/transfer/iban/{iban}")
@@ -54,14 +55,32 @@ public class TransferController {
         else
             return null;
     }
-    @GetMapping("/transfer/validate")
-    public List<Transfer> getTransferNotValidate(){
+    @GetMapping("/transfer/validate/{email}")
+    public List<Transfer> getTransferNotValidate(String email){
+        return transferRepository.findByEmailSenderAndValidateFalse(email);
+    }
+
+    @GetMapping("/transfer/invalid")
+    public List<Transfer> showAllTransferInvalid(){
         return transferRepository.findByValidateFalse();
+    }
+
+    @GetMapping("/transfer/my-transfer/{email}")
+    public List<Transfer> getTransferByEmail(@PathVariable("email") String email){
+        return transferRepository.findByEmailSenderOrEmailBeneficiary(email,email);
+    }
+
+    @GetMapping("/transfer/all-transfer/{send}/{beneficiary}")
+    public List<Transfer> showAllTransferWithBeneficiary(@PathVariable("send") String send,
+                                                         @PathVariable("beneficiary") String beneficiary){
+        return transferRepository.findByEmailSenderAndEmailBeneficiary(send, beneficiary);
     }
 
     @PostMapping("/transfer")
     public Transfer fareTransfer(@RequestBody Transfer transfer, BindingResult result){
         if (!result.hasErrors()){
+            transfer.setDateTransfer(new Date());
+            transfer.setValidate(false);
             return transferRepository.save(transfer);
         }
         else 
@@ -79,7 +98,7 @@ public class TransferController {
             throw new IllegalArgumentException("Invalid Id : "+id);
     }
 
-    @GetMapping("/transfer/delete/{id}")
+    @DeleteMapping("/transfer/delete/{id}")
     public void deleteTransfer(@PathVariable("id") Integer id){
         if (transferRepository.existsById(id)){
             transferRepository.deleteById(id);

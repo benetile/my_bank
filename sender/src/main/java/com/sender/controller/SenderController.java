@@ -7,9 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
@@ -67,6 +66,8 @@ public class SenderController {
             throw new IllegalArgumentException("Invalid Id : "+id);
     }
 
+
+    /************** Partie test CodingGame ******************/
     @GetMapping("/test")
     public int calculateTotalPrice(){
         int [] prices = {100,50,60,80,15,200};
@@ -105,13 +106,10 @@ public class SenderController {
 
     @GetMapping("/test3")
     public String concat(){
-        String [] a = {"f","o","o","bar"};
-        int [] t = new int[7];
-        String foobar = new String("");
-        for (String f : a){
-            foobar += f;
-        }
-        return foobar;
+        String [] strings = {"f","o","o","bar"};
+        return Arrays.stream(strings)//.map(Objects::toString)
+                .collect(Collectors.joining(""));
+       // return foobar;
     }
 
     @GetMapping("/test4")
@@ -134,7 +132,6 @@ public class SenderController {
         for (int i = 0;i<tab.length;i++){
             for (int j = i+ 1; j< tab.length;j++){
                 if (response[j] != tab[i]){
-
                     j++;
                 }
             }
@@ -142,4 +139,78 @@ public class SenderController {
         Arrays.sort(response);
         return response;
     }
+
+    @GetMapping("/test6")
+    public boolean exists() {
+        int[] ints ={-9,14,37,102};
+        int k =102;
+        int n = ints.length;
+        boolean trouve = false;
+        int fin = ints.length-1;
+        int debut = 0;
+        while(debut <= fin && trouve == false){
+            int milieu = (debut + fin)/2;
+            if(ints[milieu] == k){
+                trouve = true;
+            }
+            else if(ints[milieu] < k){
+                debut = milieu + 1;
+            }
+            else{
+                fin = milieu -1;
+            }
+        }
+        if(trouve == true){
+            return trouve;
+        }
+        else{
+            return trouve;}
+    }
+
+    @GetMapping("/test7")
+    public void solutionTemperature(){
+        Scanner in = new Scanner(System.in);
+        // l'entier à analyser
+        int n = in.nextInt(); in.nextLine();
+
+        int closeToZero = (n == 0)? 0: Arrays.stream(in.nextLine().split(""))
+                .map(str -> Integer.valueOf(str))
+                .min(this::compare)
+                .get();
+        System.out.println(closeToZero);
+
+    }
+    private int compare(Integer t1, Integer t2){
+        if(Math.abs(t1)< Math.abs(t2)){
+            return -1;
+        }
+        else if(Math.abs(t1) == Math.abs(t2) && t1>t2){
+            return -1;
+        }
+        else if(Math.abs(t1) == Math.abs(t2) && t1<t2){
+            return +1;
+        }
+        else if(Math.abs(t1)> Math.abs(t2)){
+            return +1;
+        }
+       return 0;
+    }
+
+    @GetMapping("/test8")
+    public Long solutionRiver(){
+        Scanner in = new Scanner(System.in);
+        long r1 = in.nextLong();
+        long r2 = in.nextLong();
+        while (r1 != r2){
+            if (r1 <r2)
+                r1= calcNextRiver(r1);
+            else
+                r2 = calcNextRiver(r2);
+        }
+        return r1;
+    }
+    public Long calcNextRiver(Long actual){
+        return actual + String.valueOf(actual).chars().map(asci -> new Integer(""+(char)asci)).sum();
+    }
+
 }

@@ -15,5 +15,11 @@ public interface TransferRepository extends JpaRepository<Transfer,Integer> {
 
     List<Transfer> findByNameSenderAndTransferType(String name, String type);
 
+    List<Transfer> findByEmailSenderAndEmailBeneficiary(String send, String receive);
+
+    List<Transfer> findByEmailSenderOrEmailBeneficiary(String send,String receive);
+
+    List<Transfer> findByEmailSenderAndValidateFalse(String email);
+
     List<Transfer> findByValidateFalse();
 }

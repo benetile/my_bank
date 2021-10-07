@@ -50,7 +50,6 @@ public class SenderBean {
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
-
     public String getLastname() {
         return lastname;
     }

@@ -20,9 +20,9 @@ public class BeneficiaryController {
         return beneficiaryRepository.findAll();
     }
 
-    @GetMapping("/beneficiary/idUser/{id}")
-    public Beneficiary getBeneficiaryWithIdUser(@PathVariable("id") Integer id){
-        return beneficiaryRepository.findByIdUser(id);
+    @GetMapping("/beneficiary/phone/{phone}")
+    public Beneficiary getBeneficiaryWithIdUser(@PathVariable("id") String phone){
+        return beneficiaryRepository.findByPhone(phone);
     }
 
     @GetMapping("/beneficiary/{id}")
@@ -41,12 +41,18 @@ public class BeneficiaryController {
             return beneficiaryRepository.findByEmail(email);
         }
         else
-            throw new IllegalArgumentException("Invalid email : "+email);
+            return null;
+            // IllegalArgumentException("Invalid email : "+email);
+    }
+
+    @GetMapping("/beneficiary/iban/{iban}")
+    public Beneficiary getBeneficiaryWithIban(@PathVariable("iban") String iban){
+        return beneficiaryRepository.findByIban(iban);
     }
 
     @PostMapping("/beneficiary")
     public Beneficiary addBeneficiary(@RequestBody Beneficiary beneficiary, BindingResult result){
-        if (!result.hasErrors()){
+        if (!result.hasErrors() && beneficiaryRepository.findByEmail(beneficiary.getEmail()) == null){
             return beneficiaryRepository.save(beneficiary);
         }
         else
@@ -58,7 +64,6 @@ public class BeneficiaryController {
         Beneficiary beneficiary = beneficiaryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid id : "+id));
         if (beneficiaryRepository.existsById(id)){
             update.setIdBeneficiary(id);
-            update.setIdUser(beneficiary.getIdUser());
             return beneficiaryRepository.save(update);
         }
         else

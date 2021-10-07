@@ -1,14 +1,18 @@
 package com.account.controller;
 
+import com.account.feign.UserFeign;
 import com.account.model.Account;
+import com.account.model.Bank;
 import com.account.repository.AccountRepository;
+import com.account.repository.BankRepository;
 import com.account.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.security.Principal;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +25,25 @@ public class AccountController {
     private AccountRepository accountRepository;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private BankRepository bankRepository;
+    @Autowired
+    private UserFeign userFeign;
 
-    private static String bic = "ABCDEF";
+    /** Utilisation de HTTP CLIENT avec Java 11 **/
+    private String url = "http://localhost:8084";
+    private static final HttpClient httpClient = HttpClient.newHttpClient();
+    /*private static HttpRequest request = HttpRequest.newBuilder()
+            //.uri(URI.create("http://localhost:8084/account/accounts"))
+            .build();*/
 
+    private static String BIC = "ABCDEF";
     private static BigDecimal ceilingDefault = BigDecimal.ZERO;
-    private static BigDecimal valueDefault = BigDecimal.ZERO;
+    private static BigDecimal ZERO = BigDecimal.ZERO;
 
     @GetMapping("/account/accounts")
     public List<Account> showAllAccounts(){
+
         return accountRepository.findAll();
     }
 
@@ -59,26 +74,40 @@ public class AccountController {
             throw new IllegalArgumentException("Invalid Account number : "+accountNumber);
     }
 
-    @PostMapping("/account")
-    public Account createAccount(@RequestBody Account account, BindingResult result){
-        if (!result.hasErrors() && accountRepository.findByIban(account.getIban()) == null){
+    @PostMapping("/account/create-account/{id}")
+    public Account createAccount(@RequestBody Account account,@PathVariable("id") Integer id){
+        Bank bank = bankRepository.getById(id);
+        account.setBic(BIC);
+        account.setAccountNumber(accountService.generateAccountNumber());
+        account.setIban(accountService.generateIban(bank, account.getAccountNumber()));
+        account.setSold(ZERO);
+        account.setDiscovered(ZERO);
 
-            account.setDiscovered(valueDefault);
-            account.setBic(bic);
-            account.setDiscoveredMax(valueDefault);
-            account.setSold(valueDefault);
-            account.setCeiling(ceilingDefault);
+        /** A supprimer si ma methode fonctionne comme je le souhaite
+         * account.setDiscoveredMax(ZERO);
+        /account.setCeiling(BigDecimal.valueOf(3000));*/
+
+        if (account != null){
             return accountRepository.save(account);
         }
-        else
-            throw new IllegalArgumentException("Error cannot");
+        throw new NullPointerException();
+
     }
+
      @GetMapping("/account/generate")
-     public List<String> generateAccountNumber(){
-        List<String> liste = new ArrayList<>();
-        for (int i=0; i<=6; i++){
-            String test = accountService.generateAccountNumber();
-            liste.add(test);
+     public List<Account> generateAccountNumber(){
+        List<Account> liste = new ArrayList<>();
+         Bank bank = bankRepository.findById(1).orElseThrow(()-> new IllegalArgumentException("Invalid Id "));
+        for (int i=0; i<=3; i++){
+            Account account = new Account();
+            account.setDiscovered(ZERO);
+            account.setBic(BIC);
+            account.setDiscoveredMax(ZERO);
+            account.setSold(ZERO);
+            account.setCeiling(ceilingDefault);
+            account.setAccountNumber(accountService.generateAccountNumber());
+            account.setIban(accountService.generateIban(bank, account.getAccountNumber()));
+            liste.add(account);
         }
         return liste;
      }

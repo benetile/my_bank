@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
@@ -34,7 +33,7 @@ public class MyUserDetailsService implements UserDetailsService {
         else if(user.getRole().equals("USER")){
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
-        else if(user.getRole().equals("admin")){
+        else if(user.getRole().equals("ADMIN")){
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 

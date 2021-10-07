@@ -2,8 +2,6 @@ package com.user.model;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Objects;
-
 public class HttpResponse {
 
     private int httpStatusCode;

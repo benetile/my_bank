@@ -13,4 +13,6 @@ public interface TransactionRepository extends JpaRepository<Transaction,Integer
 
     List<Transaction> findByNameSenderOrNameBeneficiary(String s, String b);
 
+    List<Transaction> findByEmailSenderOrEmailBeneficiary(String sender, String beneficiary);
+
 }

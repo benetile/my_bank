@@ -1,15 +1,9 @@
-package com.transaction.model;
+package com.user.beans;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity
-@Table(name = "transaction")
-public class Transaction {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TransactionBean {
     private Integer idTransaction;
     private Integer idUser;
     private String nameSender;
@@ -22,13 +16,15 @@ public class Transaction {
     private long transactionNumber;
     private Date transactionDate;
 
-    public Transaction() {
+    public TransactionBean() {
     }
 
-    public Transaction(Integer idUser, String nameSender, String nameBeneficiary, String transactionType, String description, BigDecimal amount, long transactionNumber, Date transactionDate) {
+    public TransactionBean(Integer idUser, String nameSender, String emailSender, String nameBeneficiary, String emailBeneficiary, String transactionType, String description, BigDecimal amount, long transactionNumber, Date transactionDate) {
         this.idUser = idUser;
         this.nameSender = nameSender;
+        this.emailSender = emailSender;
         this.nameBeneficiary = nameBeneficiary;
+        this.emailBeneficiary = emailBeneficiary;
         this.transactionType = transactionType;
         this.description = description;
         this.amount = amount;
@@ -68,14 +64,6 @@ public class Transaction {
         this.nameBeneficiary = nameBeneficiary;
     }
 
-    public String getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
-    }
-
     public String getEmailSender() {
         return emailSender;
     }
@@ -90,6 +78,14 @@ public class Transaction {
 
     public void setEmailBeneficiary(String emailBeneficiary) {
         this.emailBeneficiary = emailBeneficiary;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public String getDescription() {

@@ -1,16 +1,10 @@
-package com.transaction.model;
+package com.user.beans;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity
-@Table(name="transfer")
-public class Transfer implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TransferBean implements Serializable {
     private Integer idTransfer;
     private String ibanUser;
     private String nameSender;
@@ -26,11 +20,10 @@ public class Transfer implements Serializable {
     private Date dateTransfer;
     private Date dateValidateTransfer;
 
-
-    public Transfer() {
+    public TransferBean() {
     }
 
-    public Transfer(String ibanUser, String nameSender, String emailSender, String ibanBeneficiary, String nameBeneficiary, String emailBeneficiary, String refBank, String description, String transferType, BigDecimal amount, Boolean validate, Date dateTransfer) {
+    public TransferBean(String ibanUser, String nameSender, String emailSender, String ibanBeneficiary, String nameBeneficiary, String emailBeneficiary, String refBank, String description, String transferType, BigDecimal amount, Boolean validate, Date dateTransfer) {
         this.ibanUser = ibanUser;
         this.nameSender = nameSender;
         this.emailSender = emailSender;
@@ -69,6 +62,14 @@ public class Transfer implements Serializable {
         this.nameSender = nameSender;
     }
 
+    public String getEmailSender() {
+        return emailSender;
+    }
+
+    public void setEmailSender(String emailSender) {
+        this.emailSender = emailSender;
+    }
+
     public String getIbanBeneficiary() {
         return ibanBeneficiary;
     }
@@ -83,6 +84,14 @@ public class Transfer implements Serializable {
 
     public void setNameBeneficiary(String nameBeneficiary) {
         this.nameBeneficiary = nameBeneficiary;
+    }
+
+    public String getEmailBeneficiary() {
+        return emailBeneficiary;
+    }
+
+    public void setEmailBeneficiary(String emailBeneficiary) {
+        this.emailBeneficiary = emailBeneficiary;
     }
 
     public String getRefBank() {
@@ -131,22 +140,6 @@ public class Transfer implements Serializable {
 
     public void setDateTransfer(Date dateTransfer) {
         this.dateTransfer = dateTransfer;
-    }
-
-    public String getEmailSender() {
-        return emailSender;
-    }
-
-    public void setEmailSender(String emailSender) {
-        this.emailSender = emailSender;
-    }
-
-    public String getEmailBeneficiary() {
-        return emailBeneficiary;
-    }
-
-    public void setEmailBeneficiary(String emailBeneficiary) {
-        this.emailBeneficiary = emailBeneficiary;
     }
 
     public Date getDateValidateTransfer() {

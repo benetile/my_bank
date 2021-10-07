@@ -22,14 +22,14 @@ public class TransactionController {
     public List<Transaction> showAllTransactions(){
         return transactionRepository.findAll();
     }
+
+    /** Modifier le comportement de la méthode pour renvoie la liste des transctions d'un utilisateur*/
     @GetMapping("/transaction/users/{id}")
     public List<Transaction> showAllTransactionByUser(@PathVariable("id") Integer id){
-        if (userFeign.getUser(id)!=null){
-            return transactionRepository.findByIdUser(id);
-        }
-        else
-            throw new IllegalArgumentException("Invalid Id : "+id);
+        System.out.println(transactionRepository.findByIdUser(id).size());
+        return transactionRepository.findByIdUser(id);
     }
+
     @GetMapping("/transaction/id/{id}")
     public Optional<Transaction> getTransaction(@PathVariable("id") Integer id){
         if (transactionRepository.existsById(id)){
@@ -37,6 +37,12 @@ public class TransactionController {
         }
         else
             throw new IllegalArgumentException("Invalid id : "+id);
+    }
+
+    @GetMapping("/transaction/email/{sender}/{beneficiary}")
+    public List<Transaction> getAllTransactionByEmail(@PathVariable("sender") String sender,
+                                                      @PathVariable("beneficiary") String beneficiary){
+        return transactionRepository.findByEmailSenderOrEmailBeneficiary(sender, beneficiary);
     }
 
     @PostMapping("/transaction")
@@ -59,7 +65,7 @@ public class TransactionController {
             throw new IllegalArgumentException("Invalid Id : "+id);
     }
 
-    @GetMapping("/transaction/delete/{id}")
+    @DeleteMapping("/transaction/delete/{id}")
     public void deleteTransaction(@PathVariable("id") Integer id){
         if (transactionRepository.existsById(id)){
             transactionRepository.deleteById(id);
@@ -67,4 +73,5 @@ public class TransactionController {
         else
             throw new IllegalArgumentException("Invalid Id : "+id);
     }
+
 }

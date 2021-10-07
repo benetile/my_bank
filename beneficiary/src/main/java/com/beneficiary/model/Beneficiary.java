@@ -1,6 +1,12 @@
 package com.beneficiary.model;
 
+import com.beneficiary.beans.UserDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.catalina.User;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "beneficiary")
@@ -12,16 +18,22 @@ public class Beneficiary {
     private String firstname;
     private String lastname;
     private String email;
-    private Integer idUser;
+    private String iban;
+    private String phone;
+
+    @JsonIgnoreProperties("beneficiaries")
+    @ManyToMany(mappedBy = "beneficiaries",targetEntity = UserDTO.class)
+    private List<UserDTO> users = new ArrayList<>();
 
     public Beneficiary() {
     }
 
-    public Beneficiary(String firstname, String lastname, String email, Integer idUser) {
+    public Beneficiary(String firstname, String lastname, String email, String iban, String phone) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.idUser = idUser;
+        this.iban = iban;
+        this.phone = phone;
     }
 
     public Integer getIdBeneficiary() {
@@ -56,11 +68,27 @@ public class Beneficiary {
         this.email = email;
     }
 
-    public Integer getIdUser() {
-        return idUser;
+    public String getIban() {
+        return iban;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public List<UserDTO> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserDTO> users) {
+        this.users = users;
     }
 }

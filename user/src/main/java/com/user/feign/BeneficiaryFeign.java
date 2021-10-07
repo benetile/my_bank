@@ -20,6 +20,9 @@ public interface BeneficiaryFeign {
     @GetMapping("/beneficiary/email/{email}")
     BeneficiaryBean getBeneficiaryWithEmail(@PathVariable("email") String email);
 
+    @GetMapping("/beneficiary/iban/{iban}")
+    BeneficiaryBean getBeneficiaryWithIban(@PathVariable("iban") String iban);
+
     @PostMapping("/beneficiary")
     BeneficiaryBean addBeneficiary(@RequestBody BeneficiaryBean beneficiary);
 

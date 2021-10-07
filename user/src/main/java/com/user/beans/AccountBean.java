@@ -10,7 +10,7 @@ public class AccountBean {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAccount;
-    private long accountNumber;
+    private String accountNumber;
     private String iban;
     private String bic;
     private String firstname;
@@ -32,11 +32,11 @@ public class AccountBean {
         this.idAccount = idAccount;
     }
 
-    public long getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(long accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 

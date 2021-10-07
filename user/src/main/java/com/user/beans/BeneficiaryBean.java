@@ -19,7 +19,8 @@ public class BeneficiaryBean {
     private String firstname;
     private String lastname;
     private String email;
-    private Integer idUser;
+    private String iban;
+    private String phone;
 
     @ManyToMany(mappedBy = "beneficiaries",targetEntity = User.class)
     @JsonIgnoreProperties("beneficiaries")
@@ -28,11 +29,12 @@ public class BeneficiaryBean {
     public BeneficiaryBean() {
     }
 
-    public BeneficiaryBean(String firstname, String lastname, String email, Integer idUser) {
+    public BeneficiaryBean(String firstname, String lastname, String email, String iban, String phone) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.idUser = idUser;
+        this.iban = iban;
+        this.phone = phone;
     }
 
     public Integer getIdBeneficiary() {
@@ -67,12 +69,20 @@ public class BeneficiaryBean {
         this.email = email;
     }
 
-    public Integer getIdUser() {
-        return idUser;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public List<User> getUsers() {
